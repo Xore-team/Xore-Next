@@ -1,4 +1,5 @@
 import Module from "../Module.base";
+import Avatar from "./Avatar";
 
 export = new Module({
     name: "misc",
@@ -6,6 +7,8 @@ export = new Module({
     enabled: true,
     emoji: "🎮",
     init() {
-        return [];
+        return [
+            new Avatar()
+        ];
     }
 });
