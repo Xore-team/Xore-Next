@@ -1,0 +1,44 @@
+datasource db {
+    provider = "mongodb"
+    url = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+    previewFeatures = ["mongoDb"]
+}
+
+model UncachedGuilds {
+    guild_id String @id @map("_id")
+}
+
+model GuildPrefixes {
+    guild String @id @map("_id")
+    prefix String @unique
+}
+
+model GuildModuleSettings {
+    guild String @id @map("_id")
+    modules String[] @unique
+}
+
+model GuildCommandSettings {
+    guild String @id @map("_id")
+    commands String[] @unique
+}
+
+model GuildEventSettings {
+    guild String @id @map("_id")
+    events String[] @unique
+}
+
+model GuildModLogSettings {
+    guild String @id @map("_id")
+    channel String @unique
+    embedColor String @default("0xdc2f02")
+}
+
+model GuildLogChannelSettings {
+    guild String @id @map("_id")
+    channel String @unique
+}
