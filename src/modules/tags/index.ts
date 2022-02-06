@@ -1,6 +1,9 @@
 import Module from "../Module.base";
 import TagCreate from "./Create";
 import TagDelete from "./Delete";
+import TagEdit from "./Edit";
+import Tag from "./Tag";
+import TagList from "./TagList";
 
 export = new Module({
     name: "tags",
@@ -10,7 +13,10 @@ export = new Module({
     init() {
         return [
             new TagCreate(),
-            new TagDelete()
+            new TagDelete(),
+            new Tag(),
+            new TagList(),
+            new TagEdit()
         ];
     }
 });

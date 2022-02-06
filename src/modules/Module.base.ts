@@ -19,6 +19,12 @@ export = class Module implements ModuleOptions {
         return this.options.can_be_disabled ?? true;
     }
 
+    get disabled_for_reason() {
+        return this.options.disabled_for_reason ?? { 
+            message: "This module is disabled globaly" 
+        }
+    }
+
     get emoji() {
         return this.options.emoji;
     }
@@ -32,6 +38,9 @@ interface ModuleOptions {
     name: string;
     enabled: boolean;
     can_be_disabled: boolean;
+    disabled_for_reason?: {
+        message: string;
+    }
     emoji: string;
     init(): Array<Command>;
 }

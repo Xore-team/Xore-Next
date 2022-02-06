@@ -1,4 +1,5 @@
 import { Command, CommandCtx } from "../Command.base";
+import CommandUtil from "../Util.base";
 
 export = class Module extends Command {
     public onCommandLoad(): void {
@@ -40,21 +41,16 @@ export = class Module extends Command {
             });
         } else {
             if (data.modules.includes(module.name)) {
-                let index = data.modules.indexOf(module.name);
-                let arr = [...data.modules];
-                delete arr[index];
-
-                if (index !== -1) {
-                    state = "Enabled";
-                    await client.prisma.guildModuleSettings.update({
-                        where: {
-                            guild: message.guild?.id
-                        },
-                        data: {
-                            modules: [...arr]
-                        }
-                    });
-                }
+                let arr = CommandUtil.remove(data.modules, module.name);
+                state = "Enabled";
+                await client.prisma.guildModuleSettings.update({
+                    where: {
+                        guild: message.guild?.id
+                    },
+                    data: {
+                        modules: [...arr]
+                    }
+                });
             } else {
                 state = "Disabled";
                 await client.prisma.guildModuleSettings.delete({

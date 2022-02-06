@@ -4,7 +4,10 @@ export = class TagCreate extends Command {
     public onCommandLoad(): void {
         this.setup({
             name: "tag-create",
-            description: "Creates a tag for the guild"
+            description: "Creates a tag for the guild",
+            permissions: {
+                user: ["MANAGE_MESSAGES"]
+            }
         });
     }
 
@@ -41,13 +44,13 @@ export = class TagCreate extends Command {
         console.log(data)
         if (data && data.names.includes(ctx.args[0])) {
             return ctx.message.channel.send(`${this.emotes.no} Tag \`${ctx.args[0]}\` was already created`);
-        } else if (data && data.names.length) {
+        } else if (data) {
             await ctx.client.prisma.guildTags.delete({ where: { guild: ctx.message.guild?.id } });
             await ctx.client.prisma.guildTags.create({
                 data: {
                     guild: ctx.message.guild?.id!,
                     names: [ctx.args[0], ...data.names],
-                    bodies: [ctx.args.slice(1).join(" ")]
+                    bodies: [ctx.args.slice(1).join(" "), ...data.bodies]
                 }
             });
         } else if (!data) {

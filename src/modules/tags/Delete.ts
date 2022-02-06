@@ -1,10 +1,14 @@
 import { Command, CommandCtx } from "../Command.base"
+import CommandUtil from "../Util.base";
 
 export = class TagDelete extends Command {
     public onCommandLoad(): void {
         this.setup({
             name: "tag-delete",
-            description: "Deletes a specified tag"
+            description: "Deletes a specified tag",
+            permissions: {
+                user: ["MANAGE_MESSAGES"]
+            }
         });
     }
 
@@ -29,12 +33,19 @@ export = class TagDelete extends Command {
         if (!data) {
             return sendError();
         } else {
-            await ctx.client.prisma.guildTags.delete({
+            let newArr = CommandUtil.remove(data.names, ctx.args[0]);
+            let bodyArr = CommandUtil.remove(data.bodies, data.bodies[data.names.indexOf(ctx.args[0])])
+            await ctx.client.prisma.guildTags.update({
                 where: {
-                    guild: data.guild
+                    guild: ctx.message.guild?.id!
                 },
+                data: {
+                    names: [...newArr],
+                    bodies: [...bodyArr]
+                }
             });
-            console.log(data)
         }
+
+        ctx.message.channel.send(`${this.emotes.yes} Deleted tag \`${ctx.args[0]}\``);
     }
 }
