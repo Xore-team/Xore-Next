@@ -1,44 +1,50 @@
 datasource db {
-    provider = "mongodb"
-    url = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-    provider = "prisma-client-js"
-    previewFeatures = ["mongoDb"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
 }
 
 model UncachedGuilds {
-    guild_id String @id @map("_id")
+  guild_id String @id @map("_id")
 }
 
 model GuildPrefixes {
-    guild String @id @map("_id")
-    prefix String @unique
+  guild  String @id @map("_id")
+  prefix String @unique
 }
 
 model GuildModuleSettings {
-    guild String @id @map("_id")
-    modules String[] @unique
+  guild   String   @id @map("_id")
+  modules String[] @unique
 }
 
 model GuildCommandSettings {
-    guild String @id @map("_id")
-    commands String[] @unique
+  guild    String   @id @map("_id")
+  commands String[] @unique
 }
 
 model GuildEventSettings {
-    guild String @id @map("_id")
-    events String[] @unique
+  guild  String   @id @map("_id")
+  events String[] @unique
 }
 
 model GuildModLogSettings {
-    guild String @id @map("_id")
-    channel String @unique
-    embedColor String @default("0xdc2f02")
+  guild      String @id @map("_id")
+  channel    String @unique
+  embedColor String @default("0xdc2f02")
 }
 
 model GuildLogChannelSettings {
-    guild String @id @map("_id")
-    channel String @unique
+  guild   String @id @map("_id")
+  channel String @unique
+}
+
+model GuildTags {
+  guild String         @id @map("_id")
+  names String[]
+  bodies String[]
 }

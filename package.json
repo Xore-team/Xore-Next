@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "tsc --build --clean",
     "watch": "tsc --watch",
-    "prisma:gen": "prisma generate"
+    "prisma:gen": "prisma generate",
+    "prisma:for": "prisma format"
   },
   "author": "Wayv",
   "license": "MIT",
